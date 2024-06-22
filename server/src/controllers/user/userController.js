@@ -3,6 +3,7 @@ import { STATUS_CODES } from '../../constants/httpStatusCodes.js'
 import { hashPassword, comparePassword } from '../../utils/bcryptUtil.js'
 import { generateAccessToken } from '../../utils/jwtToken.js'
 import catchAsync from '../../utils/catchAsync.js'
+import Product from '../../models/product-model.js';
 
 
 export const registerUser = catchAsync(async (req, res) => {
@@ -73,7 +74,20 @@ export const userLogin = catchAsync(async (req, res) => {
             })
         }
     } catch (error) {
-        console.log(error)
-        return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ message: 'An error occurred during registration' });        
+        return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ message: 'An error occurred during login' });
+    }
+})
+
+
+export const getProducts = catchAsync(async (req, res) => {
+    try {
+        const products = await Product.find({ isDelete: false }).sort({ stock: -1 });
+        const cartProductId = await Cart.find({ User: req._id },{  })
+        res.status(STATUS_CODES.OK).json({
+            message: "Success",
+            data: products
+        })
+    } catch (err) {
+        return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ message: 'An error occurred while fetching products' });
     }
 })

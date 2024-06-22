@@ -1,7 +1,7 @@
 import Header from "./layout/user/Header"
 import landingImage from '../../public/—Pngtree—flying cup of coffee with_5057949.png'
 import { Button } from "@/components/ui/button"
-import { Cart } from "@/components/user/Cart"
+import { Cart } from "@/pages/user/Cart"
 
 export default function Home() {
     return (

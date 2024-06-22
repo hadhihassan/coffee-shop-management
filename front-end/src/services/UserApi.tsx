@@ -19,3 +19,7 @@ export async function registerUser(data:IUserRegister) {
         axios.post(`${BASE_URL}/api/user/register/`, data)
     )
 }
+export async function GetAllProducts() {
+    return await axios.get(`${BASE_URL}/api/user/products/`)
+    
+}

@@ -43,7 +43,7 @@ export function Login() {
                 adminLogin(data)
                     .then((res) => {
                         if (res?.data?.data?.access !== null && res?.data?.data.access) {
-                            localStorage.setItem("AdminAccessToken", res?.data?.data?.access)
+                            localStorage.setItem("AdminAccessToken", res?.data?.access)
                             toast.success('Login success')
                             navigte("/admin/product/")
                         }
@@ -55,7 +55,7 @@ export function Login() {
                 userLogin(data)
                     .then((res) => {
                         if (res?.data?.access && res?.data?.access !== null) {
-                            localStorage.setItem("UserAccessToken", res?.data?.data?.access)
+                            localStorage.setItem("UserAccessToken", res?.data?.access)
                             toast.success('Login success')
                             navigte("/")
                         }else{

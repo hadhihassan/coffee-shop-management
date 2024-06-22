@@ -1,6 +1,7 @@
+
 import mongoose from 'mongoose';
 
-const orderSchema = new mongoose.Schema({
+const cartSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
@@ -15,10 +16,6 @@ const orderSchema = new mongoose.Schema({
             type: Number,
             default: 1
         },
-        price: {
-            type: Number,
-            default: 0
-        },
         total: {
             type: Number,
             default: 0
@@ -28,20 +25,16 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    status: {
-        type: String,
-        enum: ["Processing", "Canceled", "Failed", "Completed"],
-        default: "Processing",
-        required: true
-    },
-    isDelete :  {
-        type: Boolean,
-        default: false
-    }
 }, {
     timestamps: true
 });
 
-const Order = mongoose.model('Order', orderSchema);
+const Cart = mongoose.model('Cart', cartSchema);
 
-export default Order;   
+export default Cart;
+
+
+
+
+
+

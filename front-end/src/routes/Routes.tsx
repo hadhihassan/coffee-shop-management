@@ -6,7 +6,7 @@ import Header from '@/pages/layout/user/Header';
 import Shop from '@/pages/user/Shop';
 import { Route, Routes } from 'react-router-dom';
 import ProductList from '../pages/admin/ProductList'
-import Cart from '@/components/user/Cart';
+import Cart from '@/pages/user/Cart';
 export const WebRouters: React.FC = () => {
     return (
         <Routes>
