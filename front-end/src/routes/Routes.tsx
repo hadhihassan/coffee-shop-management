@@ -7,6 +7,7 @@ import Shop from '@/pages/user/Shop';
 import { Route, Routes } from 'react-router-dom';
 import ProductList from '../pages/admin/ProductList'
 import Cart from '@/pages/user/Cart';
+import Order from '@/pages/user/Order';
 export const WebRouters: React.FC = () => {
     return (
         <Routes>
@@ -15,6 +16,7 @@ export const WebRouters: React.FC = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/shop" element={<Shop />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/order" element={<Order />} />
             </Route>
 
             <Route path="/login" element={<Login />} />

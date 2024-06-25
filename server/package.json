@@ -2,11 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "src/server.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "develop": "nodemon src/server",
-    "start": "nodemon src/server.js"
+    "develop": "nodemon server",
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",

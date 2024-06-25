@@ -1,15 +1,16 @@
 import User from '../../models/user-model.js';
+import Cart from '../../models/cart-model.js';
 import { STATUS_CODES } from '../../constants/httpStatusCodes.js'
 import { hashPassword, comparePassword } from '../../utils/bcryptUtil.js'
 import { generateAccessToken } from '../../utils/jwtToken.js'
 import catchAsync from '../../utils/catchAsync.js'
 import Product from '../../models/product-model.js';
+import mongoose from 'mongoose';
 
 
 export const registerUser = catchAsync(async (req, res) => {
     try {
         const { userName, email, password } = req.body;
-        console.log(req.body)
         if (!email) {
             throw new Error('Email is required');
         }
@@ -40,7 +41,6 @@ export const registerUser = catchAsync(async (req, res) => {
 export const userLogin = catchAsync(async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log(req.body)
         const userExist = await User.findOne({ email })
         if (userExist !== null) {
             if (userExist.isBlocked) {
@@ -80,14 +80,27 @@ export const userLogin = catchAsync(async (req, res) => {
 
 
 export const getProducts = catchAsync(async (req, res) => {
+    const userId = req._id
     try {
         const products = await Product.find({ isDelete: false }).sort({ stock: -1 });
-        const cartProductId = await Cart.find({ User: req._id },{  })
+        const pipeline = [
+            { $match: { user: userId } },
+            {
+                $project: {
+                    _id: 0,
+                    productIds: '$cart.product'
+                }
+            }
+        ];
+        const cartProductId = await Cart.aggregate(pipeline)
+        console.log(cartProductId)
         res.status(STATUS_CODES.OK).json({
             message: "Success",
-            data: products
+            data: products,
+            cartProducts: cartProductId[0].productIds
         })
     } catch (err) {
+        console.log(err)
         return res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).json({ message: 'An error occurred while fetching products' });
     }
 })

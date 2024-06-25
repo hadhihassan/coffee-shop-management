@@ -6,8 +6,24 @@ import {
 } from "@/components/ui/card"
 import image from '../../../public/—Pngtree—flying cup of coffee with_5057949.png'
 import { Iproduct } from "@/type/product"
+import { addToCart } from "@/services/UserApi";
+import { AxiosError, AxiosResponse } from "axios";
+import toast from 'react-hot-toast';
 
-export default function ItemContainer({ product }: { product: Iproduct }) {
+export default function ItemContainer({ product, carProducts, getProducts }: { product: Iproduct, carProducts: string[], getProducts: () => void }) {
+    const isInCart = carProducts.includes(product?._id || "");
+
+    function addProductToCart() {
+        addToCart(product?._id || "")
+            .then((res: AxiosResponse) => {
+                if (res.data) {
+                    toast.success(res.data.message)
+                    getProducts()
+                }
+            }).catch((err: AxiosError) => {
+                toast.error(err?.response?.data?.message as string || "Somthing went wrong")
+            })
+    }
     return (
         <div className="w-[300px]">
             <Card className="max-[100px] shadow-lg rounded-lg">
@@ -23,7 +39,11 @@ export default function ItemContainer({ product }: { product: Iproduct }) {
                     </div>
                     <div className=" text-right ">
                         <span className="font-sans font-semibold text-2xl mb-2 ">{product.stock}</span>
-                        <button className="border p-2 rounded bg-amber-800 text-sm text-white font-sans ">Add to cart</button>
+                        <button
+                            onClick={() => !isInCart ? addProductToCart() : null}
+                            className="border p-2 rounded bg-amber-800 text-sm text-white font-sans">
+                            {isInCart ? "Item in cart" : "Add to Cart"}
+                        </button>
                     </div>
                 </CardContent>
             </Card>

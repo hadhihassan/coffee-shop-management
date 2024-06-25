@@ -32,7 +32,6 @@ const orderSchema = new mongoose.Schema({
         type: String,
         enum: ["Processing", "Canceled", "Failed", "Completed"],
         default: "Processing",
-        required: true
     },
     isDelete :  {
         type: Boolean,

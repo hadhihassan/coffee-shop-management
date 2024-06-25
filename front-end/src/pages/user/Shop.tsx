@@ -7,17 +7,21 @@ import toast from 'react-hot-toast';
 
 export default function Shop() {
     const [products, setProducts] = useState<Iproduct[]>([]);
-
-    useEffect(() => {
+    const [carProducts, setcarProducts] = useState<string[]>([]);
+    function getProducts() {
         GetAllProducts()
             .then((res) => {
                 if (res?.data.data !== null && res?.data.data) {
                     setProducts(res?.data.data)
+                    setcarProducts(res?.data.cartProducts || [])
                 }
             }).catch((error) => {
                 console.log(error)
                 toast.error(error?.response?.data?.message || "Somthing went wrong")
             })
+    }
+    useEffect(() => {
+        getProducts()
     }, [])
     return (
         <div>
@@ -31,7 +35,7 @@ export default function Shop() {
                 <div className="grid grid-cols-3 gap-5">
                     {
                         products?.map((product: Iproduct) => (
-                            <ItemContainer product={product} />
+                            <ItemContainer product={product} getProducts={getProducts} carProducts={carProducts} />
                         ))
                     }
                 </div>
